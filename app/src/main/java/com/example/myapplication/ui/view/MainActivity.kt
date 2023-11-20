@@ -1,12 +1,11 @@
-package com.example.myapplication.view
+package com.example.myapplication.ui.view
 
-import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.example.myapplication.databinding.ActivityMainBinding
-import com.example.myapplication.viewModel.QuoteViewModel
+import com.example.myapplication.ui.viewModel.QuoteViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +18,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        quoteViewModel.onCreate()
 
         // todo lo q esta aca adentro esta enganchado al lifedata
         quoteViewModel.quoteModel.observe(this, Observer {
