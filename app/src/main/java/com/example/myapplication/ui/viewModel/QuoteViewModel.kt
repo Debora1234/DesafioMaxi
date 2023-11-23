@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.data.model.QuoteModel
 import com.example.myapplication.domain.GetQuotesUseCase
+import com.example.myapplication.domain.GetRandomQuoteUseCase
 import kotlinx.coroutines.launch
 
 
@@ -13,25 +14,40 @@ import kotlinx.coroutines.launch
 
 class QuoteViewModel : ViewModel(){
     val quoteModel = MutableLiveData<QuoteModel>()
-    var getQuotesUseCase = GetQuotesUseCase()
-    fun onCreate() {
-        viewModelScope.launch{
-            //creamos una corrutina q se controla automaticamente
-            val result = getQuotesUseCase()
-            if(!result.isNullOrEmpty()){
-                quoteModel.postValue(result[0])
+
+
+    // Esta variable se inicializará en onCreate cuando esté disponible 'query'
+    var getQuotesUseCase: GetQuotesUseCase? = null
+    fun onCreate(query: String) {
+        // Creamos la instancia de GetQuotesUseCase con 'query' disponible
+        getQuotesUseCase = GetQuotesUseCase()
+
+        // Como es una corrutina, llamamos con el viewModelScope para que se controle automáticamente
+        viewModelScope.launch {
+            // Llamamos al caso de uso
+            getQuotesUseCase?.let { useCase ->
+                val result = useCase(query)
+                if (!result.isNullOrEmpty()) {
+                    quoteModel.postValue(result[0])
+                }
             }
         }
-
     }
+
+
+    /*
+    //creamos una instancia de nuestro caso de uso para el dominio, de uso de casos random
+    var getRandomQuoteUseCase =GetRandomQuoteUseCase()
     // el livedata, permite suscribir nuestra activity a un modelo de datos, y que se llame automaticamente cuando se realice un cambio en el modelo
 
     fun randomQuote() {
-  //      val currentQuote = QuoteProvider.random()
-  //      quoteModel.postValue(currentQuote)
+      val quote = getRandomQuoteUseCase()
+        if(quote!=null){
+            quoteModel.postValue(quote)
+        }
     }
 
-
+*/
 }
 
 

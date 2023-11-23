@@ -9,11 +9,11 @@ class QuoteService {
 
     private val retrofit = RetrofitHelper.getRetrofit()
 
-    suspend fun getQuotes(): List<QuoteModel> {
+    suspend fun getQuotes(query: String): List<QuoteModel> {
         //llamamos a la corrutina, para sobrecargar el hilo principal
         return withContext(Dispatchers.IO) {
             //de esta forma esto se hace en un hilo secundario para no sobrecargar la interfaz de usuario
-            val response = retrofit.create(QuoteApiClient::class.java).getAllQuotes()
+            val response = retrofit.create(QuoteApiClient::class.java).getAllQuotes("$query/images")
             response.body() ?: emptyList()
         }
     }

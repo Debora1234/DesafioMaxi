@@ -3,6 +3,6 @@ package com.example.myapplication.data.model
 import com.google.gson.annotations.SerializedName
 
 data class QuoteModel(
-    @SerializedName("quote") val quote: String,
-    @SerializedName("author") val author: String
+    @SerializedName("message") val images: List<String>,   //era quote
+    @SerializedName("status") val status: String    //era author
 )
