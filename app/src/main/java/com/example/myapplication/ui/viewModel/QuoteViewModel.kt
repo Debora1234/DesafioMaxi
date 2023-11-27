@@ -1,54 +1,50 @@
 package com.example.myapplication.ui.viewModel
 
+import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.data.model.QuoteModel
 import com.example.myapplication.domain.GetQuotesUseCase
-import com.example.myapplication.domain.GetRandomQuoteUseCase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
 //Para que nuestra clase sea un ViewModel, tenemos que hacer que la clase creada extienda de
 // dicha clase y es por ello que ponemos : ViewModel() después del nombre de la clase.
 
-class QuoteViewModel : ViewModel(){
-    val quoteModel = MutableLiveData<QuoteModel>()
+class QuoteViewModel : ViewModel() {
+
+    private val _dogImagesLiveData = MutableLiveData<List<String>>()
+    val dogImagesLiveData: LiveData<List<String>> get() = _dogImagesLiveData
+
+    // LiveData para observar los cambios en la lista de citas
+    val quoteModel = MutableLiveData<QuoteModel?>()
+    val isLoading = MutableLiveData<Boolean>() //lo usamos para mostrar/ocultar el progress
 
 
-    // Esta variable se inicializará en onCreate cuando esté disponible 'query'
-    var getQuotesUseCase: GetQuotesUseCase? = null
-    fun onCreate(query: String) {
-        // Creamos la instancia de GetQuotesUseCase con 'query' disponible
-        getQuotesUseCase = GetQuotesUseCase()
+    // LiveData para manejar mensajes de error
+    val errorMessage = MutableLiveData<String>()
 
-        // Como es una corrutina, llamamos con el viewModelScope para que se controle automáticamente
-        viewModelScope.launch {
-            // Llamamos al caso de uso
-            getQuotesUseCase?.let { useCase ->
-                val result = useCase(query)
-                if (!result.isNullOrEmpty()) {
-                    quoteModel.postValue(result[0])
-                }
+    private var getQuotesUseCase = GetQuotesUseCase()   // Instancia del caso de uso
+    fun onCreate(query: String) {                     // Función para inicializar el ViewModel con un query
+        Log.d("estado ", "2) view model")
+        viewModelScope.launch {       // Lanzamos una corrutina en el hilo principal
+            isLoading.postValue(true)           //cargo el loding
+            try {
+                val images = getQuotesUseCase(query)
+                _dogImagesLiveData.postValue(images)
+            } catch (e: Exception) {
+                errorMessage.postValue("Error al obtener las imágenes.")
+            } finally {
+                isLoading.postValue(false)
             }
         }
     }
-
-
-    /*
-    //creamos una instancia de nuestro caso de uso para el dominio, de uso de casos random
-    var getRandomQuoteUseCase =GetRandomQuoteUseCase()
-    // el livedata, permite suscribir nuestra activity a un modelo de datos, y que se llame automaticamente cuando se realice un cambio en el modelo
-
-    fun randomQuote() {
-      val quote = getRandomQuoteUseCase()
-        if(quote!=null){
-            quoteModel.postValue(quote)
-        }
-    }
-
-*/
 }
+
+
 
 
 //ViewModel se encarga de manejar la lógica de presentación y de exponer datos a la Vista de

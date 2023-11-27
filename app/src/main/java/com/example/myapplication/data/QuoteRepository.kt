@@ -1,19 +1,20 @@
 package com.example.myapplication.data
 
+import android.util.Log
+import com.example.myapplication.core.RetrofitHelper
 import com.example.myapplication.data.model.QuoteModel
 import com.example.myapplication.data.model.QuoteProvider
 import com.example.myapplication.data.network.QuoteService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import retrofit2.http.GET
+import retrofit2.http.Url
+
 
 class QuoteRepository {
-
-    //llamamos al servidor
     private val api = QuoteService()
 
-    suspend fun getAllQuotes(query: String):List<QuoteModel>{
-        //primera liena, corrutina, llamo al backend y recupero las sitas
-        val response = api.getQuotes(query)
-        //guardamos en provider los datos que tomamos, le decimos q las quotes actuales son la respuesta q nos dio el servidor
-        QuoteProvider.quotes = response
-        return response
+    suspend fun getAllQuotes(query: String): List<String> {
+        return api.getQuotes(query)
     }
 }

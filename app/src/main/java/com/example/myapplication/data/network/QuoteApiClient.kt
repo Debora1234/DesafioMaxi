@@ -7,7 +7,6 @@ import retrofit2.http.Url
 
 interface QuoteApiClient {
     @GET
-    fun getAllQuotes(@Url url:String): Response<List<QuoteModel>>
+    suspend fun getAllQuotes(@Url url: String): Response<QuoteModel>
 }
-
 //primero ponemos el tipo de llamada, get, luego la funcion fun.

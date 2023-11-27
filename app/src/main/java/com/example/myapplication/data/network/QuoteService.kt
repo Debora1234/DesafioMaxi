@@ -1,21 +1,20 @@
 package com.example.myapplication.data.network
 
+import android.util.Log
 import com.example.myapplication.core.RetrofitHelper
 import com.example.myapplication.data.model.QuoteModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
 class QuoteService {
 
     private val retrofit = RetrofitHelper.getRetrofit()
-
-    suspend fun getQuotes(query: String): List<QuoteModel> {
-        //llamamos a la corrutina, para sobrecargar el hilo principal
+    suspend fun getQuotes(query: String): List<String> {
         return withContext(Dispatchers.IO) {
-            //de esta forma esto se hace en un hilo secundario para no sobrecargar la interfaz de usuario
-            val response = retrofit.create(QuoteApiClient::class.java).getAllQuotes("$query/images")
-            response.body() ?: emptyList()
+            val call = retrofit.create(QuoteApiClient::class.java).getAllQuotes("$query/images")
+            val response = call.body()
+            response?.message ?: emptyList()
         }
     }
-
 }
