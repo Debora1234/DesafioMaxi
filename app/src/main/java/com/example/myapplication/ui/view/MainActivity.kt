@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat.getSystemService
@@ -42,9 +43,15 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
             adapter.notifyDataSetChanged()
         }
 
-            quoteViewModel.isLoading.observe(this) {
-                Log.d("estado ", "quoteViewModel.isLoading.observe")
-                binding.loading.isVisible = it
+        quoteViewModel.isLoading.observe(this) {
+            Log.d("estado ", "quoteViewModel.isLoading.observe")
+            binding.loading.isVisible = it
+        }
+
+        quoteViewModel.errorLiveData.observe(this) { errorMessage ->
+            if (!errorMessage.isNullOrEmpty()) {
+                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+            }
         }
 
     }

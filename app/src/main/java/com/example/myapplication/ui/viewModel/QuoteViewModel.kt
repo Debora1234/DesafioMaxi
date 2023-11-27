@@ -1,10 +1,12 @@
 package com.example.myapplication.ui.viewModel
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.myapplication.data.model.QuoteModel
 import com.example.myapplication.domain.GetQuotesUseCase
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +21,12 @@ class QuoteViewModel : ViewModel() {
     private val _dogImagesLiveData = MutableLiveData<List<String>>()
     val dogImagesLiveData: LiveData<List<String>> get() = _dogImagesLiveData
 
+    /*para mostrar un error si introduce un nombre de raza que no existe*/
+    private val _errorLiveData = MutableLiveData<String>()
+    val errorLiveData: LiveData<String>
+        get() = _errorLiveData
+    /*fin para mostrar un error si introduce un nombre que no existe*/
+
     // LiveData para observar los cambios en la lista de citas
     val quoteModel = MutableLiveData<QuoteModel?>()
     val isLoading = MutableLiveData<Boolean>() //lo usamos para mostrar/ocultar el progress
@@ -32,14 +40,16 @@ class QuoteViewModel : ViewModel() {
         Log.d("estado ", "2) view model")
         viewModelScope.launch {       // Lanzamos una corrutina en el hilo principal
             isLoading.postValue(true)           //cargo el loding
-            try {
+                Log.d("estado", "entro en try")
                 val images = getQuotesUseCase(query)
                 _dogImagesLiveData.postValue(images)
-            } catch (e: Exception) {
-                errorMessage.postValue("Error al obtener las imágenes.")
-            } finally {
+                if(images.isNullOrEmpty()){
+                    Log.d("estado", "valor de images $images")
+                    Log.d("estado", "entro en exception")
+                    _errorLiveData.postValue("Error: No se encontraron imágenes para la raza '$query'")
+                }
+                Log.d("estado", "entro en finally")
                 isLoading.postValue(false)
-            }
         }
     }
 }
