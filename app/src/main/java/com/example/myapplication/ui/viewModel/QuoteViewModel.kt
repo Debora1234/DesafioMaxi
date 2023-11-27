@@ -51,6 +51,7 @@ class QuoteViewModel : ViewModel() {
                 Log.d("estado", "entro en finally")
                 isLoading.postValue(false)
         }
+
     }
 }
 
