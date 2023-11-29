@@ -10,11 +10,11 @@ import kotlinx.coroutines.withContext
 class QuoteService {
 
     private val retrofit = RetrofitHelper.getRetrofit()
-    suspend fun getQuotes(query: String): List<String> {
+    suspend fun getQuotes(query: String): List<QuoteModel> {
         return withContext(Dispatchers.IO) {
             val call = retrofit.create(QuoteApiClient::class.java).getAllQuotes("$query/images")
             val response = call.body()
-            response?.message ?: emptyList()
+            (response?.message ?: emptyList()) as List<QuoteModel>
         }
     }
 }

@@ -1,21 +1,26 @@
 package com.example.myapplication.domain
 
 import android.content.Context
-import android.util.Log
-import android.widget.Toast
 import com.example.myapplication.data.QuoteRepository
-import com.example.myapplication.data.model.QuoteModel
-import com.example.myapplication.data.model.QuoteProvider
-import com.example.myapplication.data.model.QuoteProvider.Companion.quotes
+import com.example.myapplication.data.database.entities.toDatabase
+import com.example.myapplication.domain.model.Quote
 
 
 //Este sería el caso de uso más básico, el cual solo llama al repositorio
 // para decirle que recupere de internet todas las citas.
-class GetQuotesUseCase {
-    private val repository = QuoteRepository()
+class GetQuotesUseCase(private val context: Context) {
 
-    suspend operator fun invoke(query: String): List<String> {
-        return repository.getAllQuotes(query)
+    private val repository = QuoteRepository(context)
+    suspend operator fun invoke(query: String): List<Quote> {
+        val quotes = repository.getAllQuotesFromApi()
+        if(quotes.isNotEmpty()){
+            repository.clearQuotes()
+            repository.insertQuotes(quotes.map { it.toDatabase() })
+        }
+        else{
+            repository.getAllQuotesFromDatabase()
+        }
+        return quotes
     }
 }
 //devolvemos una lista de quotemodel,
