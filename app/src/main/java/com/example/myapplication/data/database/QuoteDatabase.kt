@@ -2,39 +2,44 @@ package com.example.myapplication.data.database
 
 import android.app.Application
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import android.util.Log
+import androidx.room.*
 import com.example.myapplication.data.database.dao.QuoteDao
-
-
 import com.example.myapplication.data.database.entities.QuoteEntity
 
 
-@Database(entities = [QuoteEntity::class], version = 1)
+@Database(entities = [QuoteEntity::class], version = 1, exportSchema = false)
 abstract class QuoteDatabase : RoomDatabase() {
-    abstract fun GetQuoteDao(): QuoteDao
+   public abstract fun getQuoteDao(): QuoteDao
 
-    companion object {
-        @Volatile
-        private var INSTANCE: QuoteDatabase? = null
+   companion object {
+      @Volatile
+      private var instance: QuoteDatabase? = null
 
-        fun getDatabase(context: Context): QuoteDatabase {
-            val tempInstance = INSTANCE
-            if (tempInstance != null) {
-                return tempInstance
-            }
-            synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    QuoteDatabase::class.java,
-                    "quote_database"
-                ).build()
-                INSTANCE = instance
-                return instance
-            }
-        }
-    }
+      fun getInstance(context: Context): QuoteDatabase {
+         if(instance != null) return instance!!
+         synchronized(this){
+            Log.d("estado ", "entre a getInstance")
+            instance = Room
+               .databaseBuilder(context, QuoteDatabase::class.java, "quote_database")
+               //.fallbackToDestructiveMigration()
+               .build()
+            return instance!!
+         }
+
+      }
+   }
 }
+         /*fun getInstance(context: Context): QuoteDatabase {
+         return instance ?: synchronized(this) {
+            instance ?: buildDatabase(context).also { instance = it }
+         }
+
+      fun buildDatabase(context: Context): QuoteDatabase {
+         return Room.databaseBuilder(context, QuoteDatabase::class.java, "quote_database")
+            .build()
+      }
+   }*/
+
 
 

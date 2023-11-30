@@ -1,26 +1,42 @@
 package com.example.myapplication.domain
 
 import android.content.Context
+import android.util.Log
 import com.example.myapplication.data.QuoteRepository
-import com.example.myapplication.data.database.entities.toDatabase
+
 import com.example.myapplication.domain.model.Quote
+import kotlin.text.Typography.quote
 
 
-//Este sería el caso de uso más básico, el cual solo llama al repositorio
-// para decirle que recupere de internet todas las citas.
-class GetQuotesUseCase(private val context: Context) {
+class GetQuotesUseCase() {
 
-    private val repository = QuoteRepository(context)
-    suspend operator fun invoke(query: String): List<Quote> {
-        val quotes = repository.getAllQuotesFromApi()
-        if(quotes.isNotEmpty()){
-            repository.clearQuotes()
-            repository.insertQuotes(quotes.map { it.toDatabase() })
+    private val repository = QuoteRepository()
+    //Nuestro caso de uso la primera vez recupera las citas del servidor y las guarda en la db
+
+    suspend operator fun invoke(query: String, context: Context): List<Quote> {
+        //si hay intenret {
+        val quotes: List<Quote> = repository.getAllQuotesFromApi(query)
+        return if(!quotes.isEmpty()){        //si encontro algo lo insertamos en la db
+            Log.d("estado", "message is not null")
+            repository.insertQuotes(context, quotes)
+            quotes
         }
-        else{
-            repository.getAllQuotesFromDatabase()
+        else{                           //si no encontro nada le mostramos lo q tenemos guardado en memoria
+            Log.d("estado", "message is null")
+            val quotes = repository.getAllQuotesFromDatabase(query)
+            quotes
         }
-        return quotes
+        //cierro si hay internet
+
+        //si no hay intenet
+        //si encontro algo lo insertamos en la db
+        //si no encontro nada le mostramos lo q tenemos guardado en memoria
+
+        /* Log.d("estado", "message is null")
+            val quotes = repository.getAllQuotesFromDatabase(query)
+            quotes
+        */
+
     }
 }
 //devolvemos una lista de quotemodel,

@@ -1,5 +1,6 @@
 package com.example.myapplication.data.database.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -8,13 +9,17 @@ import com.example.myapplication.data.database.entities.QuoteEntity
 
 @Dao
 interface QuoteDao {
+/*
+    @Query("SELECT * FROM quote_table WHERE raza = :raza")
+    suspend fun getAllQuotes(raza : String): List<QuoteEntity>
+  //  suspend fun getAllQuotes() : LiveData<QuoteEntity>
+*/
+    @Insert
+    suspend fun insert(quote: QuoteEntity):Long
 
-    @Query(value= "SELECT * FROM quote_table")
-    suspend fun getAllQuotes():List<QuoteEntity>
+/*
+    @Query("DELETE FROM quote_table")
+    suspend fun deleteAllQuotes()
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(quotes:List<QuoteEntity>)
-
-    @Query(value = "DELETE FROM quote_table")
-    fun deleteAllQuotes()
+ */
 }
