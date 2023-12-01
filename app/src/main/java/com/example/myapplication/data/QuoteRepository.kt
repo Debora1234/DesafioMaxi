@@ -26,12 +26,6 @@ class QuoteRepository(){
 
         var quoteDatabase: QuoteDatabase? = null
 
-        // Método de inicialización para la API
-        fun initApi() {
-            this.service = QuoteService()
-        }
-
-
         // Método de inicialización para el DAO
         fun initDB(context: Context):QuoteDatabase {
             quoteDao = QuoteDatabase.getInstance(context).getQuoteDao()
@@ -45,36 +39,13 @@ class QuoteRepository(){
     suspend fun getAllQuotesFromApi(query : String): List<Quote> {
         Log.d("estado ", "llamamos a la api")
         val response : QuoteModel? = service.getQuotes(query)
-
         Log.d("estado ", "respuesta: $response")
-
         var perros: List<Quote>? = null
         response?.message?.forEach { mensaje ->
             val nuevaQuote = Quote(response.status, query, mensaje)
             perros = perros.orEmpty().plus(nuevaQuote)
         }
-
-     //   insertPerros(perros.orEmpty())
-
         return perros.orEmpty()
-    }
-/*
-    fun insertPerros(quotes: List<Quote>, co) {
-        quoteDatabase = initDB(context)
-        CoroutineScope(IO).launch {
-            quotes.forEach { quote ->
-                quoteDao.insert(quote.toDatabase())
-            }
-        }
-    }
-*/
-    suspend fun getQuotesFromQuoteModel(quoteModel: QuoteModel, raza : String): List<Quote> {   var perros: List<Quote>? = null
-        quoteModel.message.forEach { mensaje ->
-            val nuevaQuote = Quote(quoteModel.status, raza, mensaje)
-            perros = perros.orEmpty().plus(nuevaQuote)
-        }
-        return perros.orEmpty()
-
     }
 
     // Inserta citas en la base de datos local
@@ -86,21 +57,13 @@ class QuoteRepository(){
                 }
 
             }
-    //quoteDao.insertAll(quote)
     }
-
 
    // Obtiene todas las citas de la base de datos local
     suspend fun getAllQuotesFromDatabase(raza: String): List<Quote> {
        val response: List<QuoteEntity> = quoteDao.getAllQuotes(raza)
        return response.map { it.toDomain() }
-    }
 
-
-
-    // Borra todas las citas de la base de datos local
-    suspend fun clearQuotes() {
-      //  quoteDao.deleteAllQuotes()
     }
 
 

@@ -4,9 +4,9 @@ import com.example.myapplication.data.database.entities.QuoteEntity
 import com.example.myapplication.data.model.QuoteModel
 
 data class Quote (
-    val status: String,    //era author
+    val status: String,
     val raza:String,
-    val message:String  //era quote
+    val message:String
 )
 
 //fun QuoteModel.toDomain(raza: String) : List<Quote> = Quote(status, message)
