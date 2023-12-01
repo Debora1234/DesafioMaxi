@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
@@ -28,9 +29,12 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
     private val dogImages = mutableListOf<Quote>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val screenSpash = installSplashScreen()
 
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+
+        screenSpash.setKeepOnScreenCondition { false }
 
         context = this@MainActivity
 

@@ -13,4 +13,12 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+    
+    <style name="Theme.App.Strating" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/background_splash_screen</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/patita_perro_splash</item>
+        <item name="android:windowSplashScreenBrandingImage">@drawable/descripcion</item>
+        <item name="windowSplashScreenAnimationDuration">300</item>     //como es una imagen sin moviemiento no es necesaria
+        <item name="postSplashScreenTheme"> @style/Theme.MyApplication </item>
+    </style>
 </resources>

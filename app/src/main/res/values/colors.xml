@@ -9,5 +9,6 @@
     //colores utilizados
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="background">#C6A9A9</color>
+    <color name="background">#9E8B8B</color>
+    <color name="background_splash_screen">#7E6565</color>
 </resources>
