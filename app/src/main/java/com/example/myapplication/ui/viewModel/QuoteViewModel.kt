@@ -29,6 +29,11 @@ class QuoteViewModel: ViewModel() {
 
 
 
+    //para ir actualizando nuestra lista de citas
+    private val _suggestions = MutableLiveData<List<String>>()
+    val suggestions: LiveData<List<String>> get() = _suggestions
+
+
     fun onCreate(query: String, context: Context) {                     // Función para inicializar el ViewModel con un query
        Log.d("estado ", "1 VIEWMODEL")
        var getQuotesUseCase = GetQuotesUseCase()  // Instancia del caso de uso
@@ -46,6 +51,11 @@ class QuoteViewModel: ViewModel() {
             isLoading.postValue(false)
         }
 
+    }
+
+    fun updateSuggestions(query: String) {
+        val newSuggestions = query.split(" ")
+        _suggestions.value = newSuggestions
     }
 
 

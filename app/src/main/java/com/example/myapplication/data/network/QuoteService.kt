@@ -17,4 +17,6 @@ class QuoteService {
             response.body()
         }
     }
+
+   // suspend fun getAllRazas()
 }
