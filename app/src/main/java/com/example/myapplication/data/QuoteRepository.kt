@@ -68,8 +68,7 @@ class QuoteRepository(){
         }
     }
 */
-    suspend fun getQuotesFromQuoteModel(quoteModel: QuoteModel, raza : String): List<Quote> {
-        var perros: List<Quote>? = null
+    suspend fun getQuotesFromQuoteModel(quoteModel: QuoteModel, raza : String): List<Quote> {   var perros: List<Quote>? = null
         quoteModel.message.forEach { mensaje ->
             val nuevaQuote = Quote(quoteModel.status, raza, mensaje)
             perros = perros.orEmpty().plus(nuevaQuote)
@@ -93,9 +92,8 @@ class QuoteRepository(){
 
    // Obtiene todas las citas de la base de datos local
     suspend fun getAllQuotesFromDatabase(raza: String): List<Quote> {
-       // val response: List<QuoteEntity> = quoteDao.getAllQuotes(raza)
-       val response: List<QuoteEntity> = emptyList()
-        return response.map { it.toDomain() }
+       val response: List<QuoteEntity> = quoteDao.getAllQuotes(raza)
+       return response.map { it.toDomain() }
     }
 
 

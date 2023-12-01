@@ -9,11 +9,11 @@ import com.example.myapplication.data.database.entities.QuoteEntity
 
 @Dao
 interface QuoteDao {
-/*
+
     @Query("SELECT * FROM quote_table WHERE raza = :raza")
     suspend fun getAllQuotes(raza : String): List<QuoteEntity>
-  //  suspend fun getAllQuotes() : LiveData<QuoteEntity>
-*/
+
+
     @Insert
     suspend fun insert(quote: QuoteEntity):Long
 
