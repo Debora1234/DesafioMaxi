@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/viewPrincipal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    tools:context=".ui.view.MainActivity">
+    android:id="@+id/viewImagenes"
+    tools:context=".ui.view.MainActivity2">
 
     <TextView
-        android:id="@+id/tvTitulo"
+        android:id="@+id/tvTituloImagenes"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
         android:layout_marginTop="16dp"
         android:background="@color/white"
         android:fontFamily="sans-serif-black"
         android:gravity="center"
         android:padding="16dp"
-        android:text="Pulsar la raza de perros de la cual desea ver fotos"
+        android:text="Imagnes de su raza preferida"
         android:textColor="@color/azul_del_logo"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -27,19 +24,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvListaOpciones"
+        android:id="@+id/rvDogs"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="20dp"
-        android:layout_marginTop="50dp"
-        android:textAlignment="center"
+        android:layout_margin="10dp"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTituloImagenes"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitulo" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <ProgressBar
         android:id="@+id/loading"

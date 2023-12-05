@@ -1,6 +1,5 @@
-package com.example.myapplication.ui.RecycleView
+package com.example.myapplication.ui.RecycleView.Imagenes
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -9,13 +8,10 @@ import com.example.myapplication.domain.model.Quote
 
 
 class QuoteAdapter (var message: List<Quote>) : RecyclerView.Adapter<QuoteViewHolder>() {
-    //metodo
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuoteViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        Log.d("estado ", "adapter")
         return QuoteViewHolder(layoutInflater.inflate(R.layout.item_dog, parent, false))
     }
-
     //metodo nos devuelve la cantidad de imagenes que tiene nuestro elemento
     override fun getItemCount(): Int = message.size
 

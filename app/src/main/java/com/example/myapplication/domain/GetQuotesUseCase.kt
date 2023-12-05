@@ -3,21 +3,22 @@ package com.example.myapplication.domain
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
-import com.example.myapplication.data.QuoteRepository
-import com.example.myapplication.data.database.QuoteDatabase
+import com.example.myapplication.data.Repository
+import com.example.myapplication.data.Repository.Companion.quoteDatabase
 import com.example.myapplication.data.network.NetworkUtils
 
 import com.example.myapplication.domain.model.Quote
-import kotlin.text.Typography.quote
+import com.example.myapplication.domain.model.Raza
 
 
 class GetQuotesUseCase() {
 
-    private val repository = QuoteRepository()
+    private val repository = Repository()
     //Nuestro caso de uso la primera vez recupera las citas del servidor y las guarda en la db
 
     suspend operator fun invoke(query: String, context: Context): List<Quote> {
+
+       var ultimaRazaEncontrada: String? = null
 
         //verificamos si hay internet
         val networkUtils = NetworkUtils(context)
@@ -30,10 +31,10 @@ class GetQuotesUseCase() {
                 return quotes
             } else {                           //si no encontro nada le mostramos lo q tenemos guardado en memoria
                 Log.d("estado", "message is null")
-                val quotes = repository.getAllQuotesFromDatabase(query)
-
-
-                Log.d("estado", "quotes $quotes")
+                if(ultimaRazaEncontrada != query){
+                    val quotes = repository.getAllQuotesFromDatabase(query)
+                    Log.d("estado", "quotes $quotes")
+                }
                 return quotes
             }
 
@@ -47,8 +48,6 @@ class GetQuotesUseCase() {
              return quotes
         }
     }
-
-
 }
 //devolvemos una lista de quotemodel,
 

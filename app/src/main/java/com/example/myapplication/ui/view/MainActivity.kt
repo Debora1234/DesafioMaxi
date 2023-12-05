@@ -1,37 +1,45 @@
 package com.example.myapplication.ui.view
 
-import android.R
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.Room
+import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.R
+import com.example.myapplication.data.database.entities.QuoteEntity
 
-import com.example.myapplication.data.database.QuoteDatabase
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.domain.model.Quote
-import com.example.myapplication.ui.RecycleView.ListadoRazasAdapter
-import com.example.myapplication.ui.RecycleView.QuoteAdapter
+import com.example.myapplication.domain.model.Raza
+import com.example.myapplication.ui.RecycleView.Imagenes.QuoteAdapter
+import com.example.myapplication.ui.RecycleView.ListadoRazas.ListadoRazasAdapter
+import com.example.myapplication.ui.RecycleView.ListadoRazas.ListadoRazasViewHolder
 import com.example.myapplication.ui.viewModel.QuoteViewModel
+import java.util.*
+import kotlin.text.Typography.quote
 
-class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.OnQueryTextListener {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val quoteViewModel: QuoteViewModel by viewModels()
     lateinit var context: Context
 
-    private lateinit var adapter: QuoteAdapter
+    private lateinit var adapterImagenes: QuoteAdapter
     private val dogImages = mutableListOf<Quote>()
 
-    private lateinit var searchView: SearchView
-    private lateinit var listadoRazasAdapter: ListadoRazasAdapter
+    private lateinit var adapterRazas: ListadoRazasAdapter
+    private val razasLista = mutableListOf<Raza>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val screenSpash = installSplashScreen()
@@ -46,66 +54,97 @@ class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.O
         setContentView(binding.root)
 
 
-        binding.svDogs.setOnQueryTextListener(this)
+     //   binding.svDogs.setOnQueryTextListener(this)
+
+
         initRecyclerView()
-        Log.d("estado ", "2")
+        observeViewModel()
+
+        quoteViewModel.listadoRazasOnCreate(context)
+
+
+    }
+
+
+
+    private fun initRecyclerView() {
+        //recyclerview para las imagenes de perros
+        adapterImagenes= QuoteAdapter(dogImages)
+     //   binding.rvDogs.layoutManager = LinearLayoutManager(this)
+     //   binding.rvDogs.adapter =  adapterImagenes
+
+
+        //recyclerview para la lista de perros
+        adapterRazas = ListadoRazasAdapter(razasLista)
+        binding.rvListaOpciones.layoutManager = LinearLayoutManager(this)
+        binding.rvListaOpciones.adapter = adapterRazas
+    }
+
+
+    private fun observeViewModel() {
+
 
         quoteViewModel.dogImagesLiveData.observe( this) { respuesta ->
+            Log.d("estados", " dogImagesLiveData ")
             dogImages.clear()
             if (respuesta != null) {
                 dogImages.addAll(respuesta)
             }
-            adapter.message = dogImages
-            adapter.notifyDataSetChanged()
+            adapterImagenes.message = dogImages
+            Log.d("estados", "respuesta entro a dogImagesLiveData $dogImages")
+            adapterImagenes.notifyDataSetChanged()
         }
 
-        Log.d("estado ", "3")
+
+        quoteViewModel.lidstadoDeRazasLiveData.observe( this) { respuestaRazas ->
+            Log.d("estados", " lidstadoDeRazasLiveData")
+            //razasLista.clear()
+            if (respuestaRazas != null) {
+                razasLista.addAll(respuestaRazas)
+            }
+            adapterRazas.listadoRazasBaseDatosLocal = razasLista
+            Log.d("estados", "respuesta entro a livedelistado $razasLista")
+            adapterRazas.notifyDataSetChanged()
+
+        }
+
+
+
         quoteViewModel.isLoading.observe(this) {
             binding.loading.isVisible = it
         }
-        Log.d("estado ", "4")
+
         quoteViewModel.errorLiveData.observe(this) { errorMessage ->
             if (!errorMessage.isNullOrEmpty()) {
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
             }
         }
-        Log.d("estado ", "5")
-
-        // Configurar el adapter con una lista vacía inicialmente
-        listadoRazasAdapter = ListadoRazasAdapter(this, R.layout.simple_dropdown_item_1line, emptyList())
-
-        // Observar las actualizaciones en la lista de sugerencias
-        quoteViewModel.suggestions.observe(this, Observer { query ->
-            listadoRazasAdapter.clear()
-            listadoRazasAdapter.addAll(suggestions)
-            listadoRazasAdapter.notifyDataSetChanged()
-        })
 
     }
 
-    private fun initRecyclerView() {
-        Log.d("estado ", "1")
-        adapter= QuoteAdapter(dogImages)
-        binding.rvDogs.layoutManager = LinearLayoutManager(this)
-        binding.rvDogs.adapter = adapter
-    }
+//boton
 
+
+/*
     override fun onQueryTextChange(newText: String?): Boolean {
         return true
     }
 
-    override fun onQueryTextSubmit(query: String?): Boolean {
+   override fun onQueryTextSubmit(query: String?): Boolean {
         if (!query.isNullOrEmpty()) {
-            quoteViewModel.onCreate(query,  context)
+            quoteViewModel.onCreateImagenes(query.toLowerCase(),  context)
             hideKeyBoard()
         }
+      //  intent.putExtra(query, query)
         return true
-    }
+    }*/
 
     private fun hideKeyBoard() {
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
     }
 }
+
+
 
 

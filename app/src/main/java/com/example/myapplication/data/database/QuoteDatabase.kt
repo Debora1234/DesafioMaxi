@@ -1,17 +1,19 @@
 package com.example.myapplication.data.database
 
-import android.app.Application
 import android.content.Context
 import android.util.Log
 import androidx.room.*
 import com.example.myapplication.data.database.dao.QuoteDao
+import com.example.myapplication.data.database.dao.RazasDao
+import com.example.myapplication.data.model.ListaRazasModel
 import com.example.myapplication.data.database.entities.QuoteEntity
+import com.example.myapplication.data.database.entities.RazasEntity
 
 
-@Database(entities = [QuoteEntity::class], version = 1, exportSchema = false)
+@Database(entities = [QuoteEntity::class, RazasEntity::class], version = 2, exportSchema = false)
 abstract class QuoteDatabase : RoomDatabase() {
    public abstract fun getQuoteDao(): QuoteDao
-
+   public abstract fun getRazasDao(): RazasDao
    companion object {
       @Volatile
       private var instance: QuoteDatabase? = null
@@ -22,24 +24,18 @@ abstract class QuoteDatabase : RoomDatabase() {
             Log.d("estado ", "entre a getInstance")
             instance = Room
                .databaseBuilder(context, QuoteDatabase::class.java, "quote_database")
-               //.fallbackToDestructiveMigration()
+               .fallbackToDestructiveMigration()
                .build()
             return instance!!
          }
 
       }
-   }
-}
-         /*fun getInstance(context: Context): QuoteDatabase {
-         return instance ?: synchronized(this) {
-            instance ?: buildDatabase(context).also { instance = it }
-         }
 
-      fun buildDatabase(context: Context): QuoteDatabase {
-         return Room.databaseBuilder(context, QuoteDatabase::class.java, "quote_database")
-            .build()
-      }
-   }*/
+
+   }
+
+}
+
 
 
 

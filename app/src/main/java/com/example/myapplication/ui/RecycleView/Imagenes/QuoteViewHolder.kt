@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.RecycleView
+package com.example.myapplication.ui.RecycleView.Imagenes
 
 import android.util.Log
 import android.view.View

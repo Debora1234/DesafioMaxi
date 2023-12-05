@@ -5,7 +5,9 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.example.myapplication.data.database.dao.QuoteDao
 import com.example.myapplication.domain.GetQuotesUseCase
+import com.example.myapplication.domain.GetRazasUseCase
 import com.example.myapplication.domain.model.Quote
+import com.example.myapplication.domain.model.Raza
 import kotlinx.coroutines.launch
 
 
@@ -23,41 +25,46 @@ class QuoteViewModel: ViewModel() {
 
 
     // LiveData para observar los cambios en la lista de citas
-    val quoteModel = MutableLiveData<Quote>()
+    private val _lidstadoDeRazasLiveData= MutableLiveData<List<Raza>?>()
+    val lidstadoDeRazasLiveData: MutableLiveData<List<Raza>?> get() =  _lidstadoDeRazasLiveData
+
 
     val isLoading = MutableLiveData<Boolean>() //lo usamos para mostrar/ocultar el progress
 
 
-
+/*
     //para ir actualizando nuestra lista de citas
     private val _suggestions = MutableLiveData<List<String>>()
     val suggestions: LiveData<List<String>> get() = _suggestions
+*/
 
-
-    fun onCreate(query: String, context: Context) {                     // Función para inicializar el ViewModel con un query
-       Log.d("estado ", "1 VIEWMODEL")
+    fun listadoRazasOnCreate (context: Context) {
+        var getRazasUseCase = GetRazasUseCase()  // Instancia del caso de uso
+        viewModelScope.launch {
+            val respuestaRazas = getRazasUseCase(context)
+           _lidstadoDeRazasLiveData.postValue(respuestaRazas)
+        }
+    }
+    fun onCreateImagenes(query: String, context: Context) {                     // Función para inicializar el ViewModel con un query
        var getQuotesUseCase = GetQuotesUseCase()  // Instancia del caso de uso
-       Log.d("estado ", "2 VIEWMODEL")
        isLoading.postValue(true)
        viewModelScope.launch {       // Lanzamos una corrutina en el hilo principal
-            Log.d("estado", "entro en try $context")
-            val respuesta = getQuotesUseCase(query, context)
-           Log.d("estado", "respuesta $respuesta")
+           val respuesta = getQuotesUseCase(query, context)
             _dogImagesLiveData.postValue(respuesta)
             if(respuesta.isNullOrEmpty()){
                 _errorLiveData.postValue("Error: No se encontraron imágenes para la raza '$query'")
                }
-            Log.d("estado", "entro en finally")
             isLoading.postValue(false)
         }
-
     }
 
+
+/*
     fun updateSuggestions(query: String) {
         val newSuggestions = query.split(" ")
         _suggestions.value = newSuggestions
     }
-
+*/
 
 }
 

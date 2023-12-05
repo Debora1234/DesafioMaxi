@@ -13,12 +13,22 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
-    
+
     <style name="Theme.App.Strating" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/background_splash_screen</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/patita_perro_splash</item>
         <item name="android:windowSplashScreenBrandingImage">@drawable/descripcion</item>
-        <item name="windowSplashScreenAnimationDuration">300</item>     //como es una imagen sin moviemiento no es necesaria
-        <item name="postSplashScreenTheme"> @style/Theme.MyApplication </item>
+        <item name="windowSplashScreenAnimationDuration">300</item>
+        //como es una imagen sin moviemiento no es necesaria
+        <item name="postSplashScreenTheme">@style/Theme.MyApplication</item>
     </style>
+
+    <style name="Theme.MyApplication.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.MyApplication.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.MyApplication.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
