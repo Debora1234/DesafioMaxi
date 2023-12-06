@@ -12,7 +12,7 @@ class GetRazasUseCase() {
 
     private val repository = Repository()
     //Nuestro caso de uso la primera vez recupera las citas del servidor y las guarda en la db
-
+    private val razasLista = listOf<Raza>()
     suspend operator fun invoke(context: Context): List<Raza> {
         //verificamos si hay internet
        val networkUtils = NetworkUtils(context)

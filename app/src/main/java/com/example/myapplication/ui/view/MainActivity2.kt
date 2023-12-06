@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -54,12 +55,9 @@ class MainActivity2 : AppCompatActivity() {
             Log.d("estado3", " la query no fue nula, le mando $query")
         }
 
-
-
-    binding.buttonVolver.setOnClickListener {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-    }
+        binding.buttonVolver.setOnClickListener(){
+            onBackPressed()
+        }
 
     }
 

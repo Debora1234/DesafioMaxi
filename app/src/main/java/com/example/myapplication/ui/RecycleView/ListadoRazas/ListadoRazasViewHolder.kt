@@ -29,10 +29,7 @@ class ListadoRazasViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             Log.d("estado3", "$query")
             intent.putExtra("query", query)
             this.itemView.context.startActivity(intent)
-
-
         }
-
         }
     }
 

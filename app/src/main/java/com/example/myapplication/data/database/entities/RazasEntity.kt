@@ -11,17 +11,3 @@ data class RazasEntity (
     val razas : String
 )
 fun Raza.toDataBase() = RazasEntity(razas = razas)
-//fun ListaRazasModel.toDataBase() = RazasEntity(razas = razas)
-
-
-
-/*fun ListaRazasModel.toRazasEntity(): RazasEntity {
-    // Convertir el mapa a una cadena de texto
-    val razas = buildString {
-        for ((key, values) in message) {
-            append("$key: ${values.joinToString(", ")}\n")
-        }
-    }
-
-    return RazasEntity(razas = razas)
-}*/

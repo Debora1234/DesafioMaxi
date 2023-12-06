@@ -2,6 +2,8 @@ package com.example.myapplication.ui.view
 
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
@@ -17,6 +19,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.data.database.entities.QuoteEntity
+import com.example.myapplication.data.network.NetworkReceiver
+import com.example.myapplication.data.network.NetworkUtils
 
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.domain.model.Quote
@@ -41,6 +45,15 @@ class MainActivity : AppCompatActivity() {
     private val razasLista = mutableListOf<Raza>()
 
 
+
+    private val networkReceiver = NetworkReceiver {
+        // Realiza la acción que necesitas cuando la conexión está disponible
+        initRecyclerView()
+        observeViewModel()
+        quoteViewModel.listadoRazasOnCreate(context)
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val screenSpash = installSplashScreen()
 
@@ -54,18 +67,26 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-     //   binding.svDogs.setOnQueryTextListener(this)
+        // Registra el receptor
+        val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+        registerReceiver(networkReceiver, filter)
 
+        // Comprueba la conexión cuando se inicia la actividad
+        checkNetworkStatus()
+        }
 
-        initRecyclerView()
-        observeViewModel()
+        private fun checkNetworkStatus() {
+            val networkUtils = NetworkUtils(context)
+            if (!networkUtils.isNetworkAvailable()) {
+                Toast.makeText(context, "No hay conexión a Internet. Esperando...", Toast.LENGTH_LONG).show()
+            }
+        }
 
-        quoteViewModel.listadoRazasOnCreate(context)
-
-
-    }
-
-
+        override fun onDestroy() {
+            super.onDestroy()
+            // Desregistra el receptor para evitar pérdidas de memoria
+            unregisterReceiver(networkReceiver)
+        }
 
     private fun initRecyclerView() {
         //recyclerview para las imagenes de perros
@@ -83,10 +104,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun observeViewModel() {
 
-
-
-
-
         quoteViewModel.lidstadoDeRazasLiveData.observe( this) { respuestaRazas ->
             Log.d("estados", " lidstadoDeRazasLiveData")
             //razasLista.clear()
@@ -96,10 +113,7 @@ class MainActivity : AppCompatActivity() {
             adapterRazas.listadoRazasBaseDatosLocal = razasLista
             Log.d("estados", "respuesta entro a livedelistado $razasLista")
             adapterRazas.notifyDataSetChanged()
-
         }
-
-
 
         quoteViewModel.isLoading.observe(this) {
             binding.loading.isVisible = it
@@ -110,9 +124,8 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
             }
         }
-
     }
-
+}
 //boton
 
 
@@ -128,13 +141,14 @@ class MainActivity : AppCompatActivity() {
         }
       //  intent.putExtra(query, query)
         return true
-    }*/
+    }
 
     private fun hideKeyBoard() {
         val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
     }
-}
+ */
+
 
 
 

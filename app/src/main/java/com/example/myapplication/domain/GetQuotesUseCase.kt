@@ -25,7 +25,6 @@ class GetQuotesUseCase() {
          if (networkUtils.isNetworkAvailable()) {
             val quotes: List<Quote> = repository.getAllQuotesFromApi(query)
             return if (!quotes.isEmpty()) {        //si encontro algo lo insertamos en la db
-                repository.clearQuotes()
                 repository.insertQuotes(context, quotes)
                 return quotes
             } else {                           //si no encontro nada le mostramos lo q tenemos guardado en memoria
