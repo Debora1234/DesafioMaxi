@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.room.*
 import com.example.myapplication.data.database.dao.QuoteDao
 import com.example.myapplication.data.database.dao.RazasDao
-import com.example.myapplication.data.model.ListaRazasModel
 import com.example.myapplication.data.database.entities.QuoteEntity
 import com.example.myapplication.data.database.entities.RazasEntity
 

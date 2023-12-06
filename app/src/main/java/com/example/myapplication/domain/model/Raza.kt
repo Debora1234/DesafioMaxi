@@ -1,9 +1,8 @@
 package com.example.myapplication.domain.model
 
 
-import com.example.myapplication.data.database.entities.QuoteEntity
 import com.example.myapplication.data.database.entities.RazasEntity
-import com.example.myapplication.data.model.ListaRazasModel
+import com.example.myapplication.data.modelApi.ListaRazasModel
 
 
 
@@ -17,7 +16,7 @@ fun RazasEntity.toDomain() = Raza(razas)
 public fun ListaRazasModel.toDomain2(): List<Raza> {
     return message.entries.map { entry ->
         val razas = buildString {
-            append("${entry.key}: ${entry.value.joinToString(", ")}\n")
+            append("${entry.key} ${entry.value.joinToString(", ")}\n")
         }
         Raza(razas)
     }

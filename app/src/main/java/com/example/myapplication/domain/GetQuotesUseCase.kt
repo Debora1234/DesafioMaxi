@@ -23,17 +23,14 @@ class GetQuotesUseCase() {
         //verificamos si hay internet
         val networkUtils = NetworkUtils(context)
          if (networkUtils.isNetworkAvailable()) {
-            Log.d("Network", "La conexión a Internet está disponible.")
             val quotes: List<Quote> = repository.getAllQuotesFromApi(query)
             return if (!quotes.isEmpty()) {        //si encontro algo lo insertamos en la db
-                Log.d("estado", "message is not null")
+                repository.clearQuotes()
                 repository.insertQuotes(context, quotes)
                 return quotes
             } else {                           //si no encontro nada le mostramos lo q tenemos guardado en memoria
-                Log.d("estado", "message is null")
                 if(ultimaRazaEncontrada != query){
                     val quotes = repository.getAllQuotesFromDatabase(query)
-                    Log.d("estado", "quotes $quotes")
                 }
                 return quotes
             }

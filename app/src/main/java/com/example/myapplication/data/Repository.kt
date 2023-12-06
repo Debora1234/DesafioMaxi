@@ -1,14 +1,14 @@
 package com.example.myapplication.data
 
 import android.content.Context
-import com.example.myapplication.data.Repository.Companion.quoteDatabase
+import android.util.Log
 
 import com.example.myapplication.data.database.QuoteDatabase
 import com.example.myapplication.data.database.dao.RazasDao
 import com.example.myapplication.data.database.dao.QuoteDao
 import com.example.myapplication.data.database.entities.*
-import com.example.myapplication.data.model.ListaRazasModel
-import com.example.myapplication.data.model.QuoteModel
+import com.example.myapplication.data.modelApi.ListaRazasModel
+import com.example.myapplication.data.modelApi.QuoteModel
 import com.example.myapplication.data.network.Service
 import com.example.myapplication.domain.model.Quote
 import com.example.myapplication.domain.model.Raza
@@ -33,6 +33,7 @@ class Repository(){
             razasDao = QuoteDatabase.getInstance(context).getRazasDao()
             return  QuoteDatabase.getInstance(context)
         }
+
     }
 
     //la primera vez que entro a la app, obtenemos las
@@ -52,8 +53,14 @@ class Repository(){
         if( quoteDatabase == null) quoteDatabase = initDB(context)
         CoroutineScope(IO).launch {
              quotes.forEach { quote ->
-             quoteDatabase!!.getQuoteDao().insert(quote.toDatabase())
+                 quoteDao.insert(quote.toDatabase())
                         }
+        }
+    }
+
+    suspend fun clearQuotes() {
+        CoroutineScope(IO).launch {
+            quoteDao.deleteAllQuotes()
         }
     }
 
@@ -61,7 +68,6 @@ class Repository(){
     suspend fun getAllQuotesFromDatabase(raza: String): List<Quote> {
        val response: List<QuoteEntity> = quoteDao.getAllQuotes(raza)
        return response.map { it.toDomain() }
-
     }
 
     suspend fun getAllListaRazasApi(): List<Raza> {
@@ -69,32 +75,24 @@ class Repository(){
         return response?.toDomain2().orEmpty()
     }
 
-    /*
-    suspend fun getAllListaRazasApi(): List<Raza> {
-
-        val response : ListaRazasModel? = service.getRazas()
-        var razasLeidas: List<Raza>? = null
-        response?.message?.forEach { raza ->
-            val nuevaRaza = Raza(raza.toDomain2())
-            razasLeidas = razasLeidas.orEmpty().plus(nuevaRaza)
-        }
-        return razasLeidas.orEmpty()
-    }
- */
-
     suspend fun insertRazas(context: Context, razas: List<Raza>) {
         if( quoteDatabase == null) quoteDatabase = initDB(context)
         CoroutineScope(IO).launch {
             razas.forEach { raza ->
-                quoteDatabase!!.getRazasDao().insertRaza(raza.toDataBase())
+                razasDao.insertRaza(raza.toDataBase())
             }
         }
     }
-
     suspend fun getAllRazas(): List<Raza> {
         val response: List<RazasEntity> = razasDao.getAllRazas()
         return response.map { it.toDomain() }
+    }
 
+    suspend fun clearRazas() {
+
+        CoroutineScope(IO).launch {
+            razasDao.deleteAllRazas()
+        }
     }
 
 }

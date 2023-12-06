@@ -15,18 +15,12 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity2_listado_imagenes"
+            android:name=".ui.view.MainActivity2"
             android:exported="false" />
-        <activity
-            android:name=".MainActivity2_imagenes"
-            android:exported="false"
-            android:label="@string/title_activity_main_activity2_imagenes"
-            android:theme="@style/Theme.MyApplication.NoActionBar" />
         <activity
             android:name=".ui.view.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.App.Strating">
-            //aca le decimos al activity que arranque con el splash, no con la aplicacion
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

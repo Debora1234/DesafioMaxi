@@ -40,9 +40,13 @@ class QuoteViewModel: ViewModel() {
 
     fun listadoRazasOnCreate (context: Context) {
         var getRazasUseCase = GetRazasUseCase()  // Instancia del caso de uso
+     //   isLoading.postValue(true)
+        Log.d("estados", " entro al caso de uso ")
         viewModelScope.launch {
             val respuestaRazas = getRazasUseCase(context)
+            Log.d("estados", " entro al caso de uso $respuestaRazas")
            _lidstadoDeRazasLiveData.postValue(respuestaRazas)
+          //  isLoading.postValue(false)
         }
     }
     fun onCreateImagenes(query: String, context: Context) {                     // Función para inicializar el ViewModel con un query
@@ -50,10 +54,11 @@ class QuoteViewModel: ViewModel() {
        isLoading.postValue(true)
        viewModelScope.launch {       // Lanzamos una corrutina en el hilo principal
            val respuesta = getQuotesUseCase(query, context)
+           Log.d("estados3", " entro al caso de uso $respuesta")
             _dogImagesLiveData.postValue(respuesta)
             if(respuesta.isNullOrEmpty()){
-                _errorLiveData.postValue("Error: No se encontraron imágenes para la raza '$query'")
-               }
+               _errorLiveData.postValue("Error: No se encontraron imágenes para la raza '$query'")
+              }
             isLoading.postValue(false)
         }
     }

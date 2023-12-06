@@ -1,7 +1,7 @@
 package com.example.myapplication.domain.model
 
 import com.example.myapplication.data.database.entities.QuoteEntity
-import com.example.myapplication.data.model.QuoteModel
+import com.example.myapplication.data.modelApi.QuoteModel
 
 data class Quote (
     val status: String,
@@ -11,3 +11,4 @@ data class Quote (
 
 //fun QuoteModel.toDomain(raza: String) : List<Quote> = Quote(status, message)
 fun QuoteEntity.toDomain() = Quote(status, raza, message)
+

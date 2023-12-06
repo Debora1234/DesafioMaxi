@@ -12,4 +12,9 @@ interface RazasDao {
 
     @Query("SELECT * FROM razas_table")
     suspend fun getAllRazas(): List<RazasEntity>
+
+    @Query("DELETE FROM razas_table")
+    suspend fun deleteAllRazas()
+
+
 }

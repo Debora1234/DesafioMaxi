@@ -2,8 +2,8 @@ package com.example.myapplication.data.network
 
 import android.util.Log
 import com.example.myapplication.core.RetrofitHelper
-import com.example.myapplication.data.model.ListaRazasModel
-import com.example.myapplication.data.model.QuoteModel
+import com.example.myapplication.data.modelApi.ListaRazasModel
+import com.example.myapplication.data.modelApi.QuoteModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 class Service {
@@ -11,8 +11,12 @@ class Service {
     private val retrofit = RetrofitHelper.getRetrofit()
     suspend fun getQuotes(query: String): QuoteModel? {
         return withContext(Dispatchers.IO) {
-            val response = retrofit.create(ApiClient::class.java).getAllQuotes("breed/$query/images")
-            Log.d("estado ", "respuesta de service : $response")
+            val query2 =query.trim()
+            val endpoint = "breed/$query2/images"
+            val response = retrofit.create(ApiClient::class.java).getAllQuotes(endpoint)
+            Log.d("estado4 ", "respuesta de service : $response")
+            Log.d("estado4 ", "respuesta de service : $query")
+            Log.d("estado4 ", "respuesta de service : ${response.body()}")
             response.body()
         }
     }

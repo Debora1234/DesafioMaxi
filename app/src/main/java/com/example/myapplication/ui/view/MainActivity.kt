@@ -34,8 +34,8 @@ class MainActivity : AppCompatActivity() {
     private val quoteViewModel: QuoteViewModel by viewModels()
     lateinit var context: Context
 
-    private lateinit var adapterImagenes: QuoteAdapter
-    private val dogImages = mutableListOf<Quote>()
+ //   private lateinit var adapterImagenes: QuoteAdapter
+ //   private val dogImages = mutableListOf<Quote>()
 
     private lateinit var adapterRazas: ListadoRazasAdapter
     private val razasLista = mutableListOf<Raza>()
@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initRecyclerView() {
         //recyclerview para las imagenes de perros
-        adapterImagenes= QuoteAdapter(dogImages)
+      //  adapterImagenes= QuoteAdapter(dogImages)
      //   binding.rvDogs.layoutManager = LinearLayoutManager(this)
      //   binding.rvDogs.adapter =  adapterImagenes
 
@@ -84,16 +84,7 @@ class MainActivity : AppCompatActivity() {
     private fun observeViewModel() {
 
 
-        quoteViewModel.dogImagesLiveData.observe( this) { respuesta ->
-            Log.d("estados", " dogImagesLiveData ")
-            dogImages.clear()
-            if (respuesta != null) {
-                dogImages.addAll(respuesta)
-            }
-            adapterImagenes.message = dogImages
-            Log.d("estados", "respuesta entro a dogImagesLiveData $dogImages")
-            adapterImagenes.notifyDataSetChanged()
-        }
+
 
 
         quoteViewModel.lidstadoDeRazasLiveData.observe( this) { respuestaRazas ->

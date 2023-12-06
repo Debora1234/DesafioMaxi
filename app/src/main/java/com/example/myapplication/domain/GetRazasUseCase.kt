@@ -15,16 +15,21 @@ class GetRazasUseCase() {
 
     suspend operator fun invoke(context: Context): List<Raza> {
         //verificamos si hay internet
-       // val networkUtils = NetworkUtils(context)
-      //  if (networkUtils.isNetworkAvailable()) {
+       val networkUtils = NetworkUtils(context)
+       if (networkUtils.isNetworkAvailable()) {
             Log.d("Network", "La conexión a Internet está disponible.")
             val razas : List<Raza> = repository.getAllListaRazasApi()
-            repository.insertRazas(context, razas)
-            return razas
-      //  } else {
-     //       return repository.getAllRazas()
-      // }
+            if(!razas.isEmpty()){
+                Repository.Companion.initDB(context)
+                repository.clearRazas()
+                repository.insertRazas(context, razas)
+            }
+           return razas
+       }
+       else {
+           return repository.getAllRazas()
+       }
 
     }
 }
-//dev
+
