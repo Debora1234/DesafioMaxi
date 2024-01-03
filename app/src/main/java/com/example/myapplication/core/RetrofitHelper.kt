@@ -2,6 +2,9 @@ package com.example.myapplication.core
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+/*
+
+Al hacer la inyección de dependencia no se usa mas el objeto RetrofitHelper
 
 object RetrofitHelper {
     fun getRetrofit(): Retrofit {
@@ -10,4 +13,4 @@ object RetrofitHelper {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-}
+}*/

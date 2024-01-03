@@ -8,9 +8,9 @@ import com.example.myapplication.data.network.NetworkUtils
 import com.example.myapplication.domain.model.Quote
 import com.example.myapplication.domain.model.Raza
 
-class GetRazasUseCase() {
+class GetRazasUseCase(private val repository: Repository) {
 
-    private val repository = Repository()
+  //  private val repository = Repository()
     //Nuestro caso de uso la primera vez recupera las citas del servidor y las guarda en la db
     private val razasLista = listOf<Raza>()
     suspend operator fun invoke(context: Context): List<Raza> {

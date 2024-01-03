@@ -1,22 +1,19 @@
 package com.example.myapplication.data.network
 
 import android.util.Log
-import com.example.myapplication.core.RetrofitHelper
 import com.example.myapplication.data.modelApi.ListaRazasModel
 import com.example.myapplication.data.modelApi.QuoteModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-class Service {
+import retrofit2.Retrofit
 
-    private val retrofit = RetrofitHelper.getRetrofit()
-    suspend fun getQuotes(query: String): QuoteModel? {
+class Service (private val retrofit : Retrofit) {
+
+     suspend fun getQuotes(query: String): QuoteModel? {
         return withContext(Dispatchers.IO) {
             val query2 =query.trim()
             val endpoint = "breed/$query2/images"
             val response = retrofit.create(ApiClient::class.java).getAllQuotes(endpoint)
-            Log.d("estado4 ", "respuesta de service : $response")
-            Log.d("estado4 ", "respuesta de service : $query")
-            Log.d("estado4 ", "respuesta de service : ${response.body()}")
             response.body()
         }
     }
@@ -28,6 +25,4 @@ class Service {
 
         }
     }
-
-   // suspend fun getAllRazas()
 }

@@ -9,12 +9,14 @@ import com.example.myapplication.domain.GetRazasUseCase
 import com.example.myapplication.domain.model.Quote
 import com.example.myapplication.domain.model.Raza
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
 
 
 //Para que nuestra clase sea un ViewModel, tenemos que hacer que la clase creada extienda de
 // dicha clase y es por ello que ponemos : ViewModel() después del nombre de la clase.
 
-class QuoteViewModel: ViewModel() {
+class QuoteViewModel(private var getRazasUseCase: GetRazasUseCase, private var getQuotesUseCase: GetQuotesUseCase): ViewModel(),
+    KoinComponent {
 
 
     private val _dogImagesLiveData = MutableLiveData<List<Quote>?>()
@@ -39,8 +41,8 @@ class QuoteViewModel: ViewModel() {
 */
 
     fun listadoRazasOnCreate (context: Context) {
-        var getRazasUseCase = GetRazasUseCase()  // Instancia del caso de uso
-     //   isLoading.postValue(true)
+  //         var getRazasUseCase = GetRazasUseCase()  // Instancia del caso de uso
+    //   isLoading.postValue(true)
         Log.d("estados", " entro al caso de uso ")
         viewModelScope.launch {
             val respuestaRazas = getRazasUseCase(context)
@@ -50,7 +52,7 @@ class QuoteViewModel: ViewModel() {
         }
     }
     fun onCreateImagenes(query: String, context: Context) {                     // Función para inicializar el ViewModel con un query
-       var getQuotesUseCase = GetQuotesUseCase()  // Instancia del caso de uso
+     //  var getQuotesUseCase = GetQuotesUseCase()  // Instancia del caso de uso
        isLoading.postValue(true)
        viewModelScope.launch {       // Lanzamos una corrutina en el hilo principal
            val respuesta = getQuotesUseCase(query, context)

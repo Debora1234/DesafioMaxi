@@ -20,10 +20,10 @@ import com.example.myapplication.domain.model.toDomain2
 import kotlinx.coroutines.launch
 
 
-class Repository(){
+class Repository(private val service: Service) {
 
     companion object {
-        private var service = Service()
+      //  private var service = Service()
         private lateinit var quoteDao : QuoteDao
         private lateinit var razasDao : RazasDao
 
@@ -36,6 +36,8 @@ class Repository(){
 
     }
 
+
+    /// IMGANES********************************************************
     //la primera vez que entro a la app, obtenemos las
     // quotes de la api y las guardamos en la base de datos
     suspend fun getAllQuotesFromApi(query : String): List<Quote> {
@@ -70,6 +72,9 @@ class Repository(){
        return response.map { it.toDomain() }
     }
 
+
+
+    /// RAZAS***********************************************************
     suspend fun getAllListaRazasApi(): List<Raza> {
         val response: ListaRazasModel? = service.getRazas()
         return response?.toDomain2().orEmpty()

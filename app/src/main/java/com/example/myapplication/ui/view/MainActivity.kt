@@ -29,13 +29,14 @@ import com.example.myapplication.ui.RecycleView.Imagenes.QuoteAdapter
 import com.example.myapplication.ui.RecycleView.ListadoRazas.ListadoRazasAdapter
 import com.example.myapplication.ui.RecycleView.ListadoRazas.ListadoRazasViewHolder
 import com.example.myapplication.ui.viewModel.QuoteViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 import kotlin.text.Typography.quote
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val quoteViewModel: QuoteViewModel by viewModels()
+    private val quoteViewModel: QuoteViewModel by viewModel()
     lateinit var context: Context
 
  //   private lateinit var adapterImagenes: QuoteAdapter
@@ -43,7 +44,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var adapterRazas: ListadoRazasAdapter
     private val razasLista = mutableListOf<Raza>()
-
 
 
     private val networkReceiver = NetworkReceiver {

@@ -13,12 +13,13 @@ import com.example.myapplication.databinding.Activity2MainBinding
 import com.example.myapplication.domain.model.Quote
 import com.example.myapplication.ui.RecycleView.Imagenes.QuoteAdapter
 import com.example.myapplication.ui.viewModel.QuoteViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity2 : AppCompatActivity() {
 
 
     private lateinit var binding: Activity2MainBinding
-    private val quoteViewModel: QuoteViewModel by viewModels()
+    private val quoteViewModel: QuoteViewModel by viewModel()
 
 
     private lateinit var adapterImagenes: QuoteAdapter

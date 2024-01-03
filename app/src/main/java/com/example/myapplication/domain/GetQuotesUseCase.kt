@@ -11,9 +11,9 @@ import com.example.myapplication.domain.model.Quote
 import com.example.myapplication.domain.model.Raza
 
 
-class GetQuotesUseCase() {
+class GetQuotesUseCase( private val repository: Repository) {
 
-    private val repository = Repository()
+    //private val repository = Repository()
     //Nuestro caso de uso la primera vez recupera las citas del servidor y las guarda en la db
 
     suspend operator fun invoke(query: String, context: Context): List<Quote> {
