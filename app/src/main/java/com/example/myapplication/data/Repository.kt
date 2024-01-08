@@ -33,9 +33,33 @@ class Repository(private val service: Service) {
             razasDao = QuoteDatabase.getInstance(context).getRazasDao()
             return  QuoteDatabase.getInstance(context)
         }
-
     }
 
+    /// RAZAS***********************************************************
+    suspend fun getAllListaRazasApi(): List<Raza> {
+        val response: ListaRazasModel? = service.getRazas()
+        Log.d("estado5", "respuesta de service de todas las razas : ${response}")
+        return response?.toDomain2().orEmpty()
+    }
+
+    suspend fun insertRazas(context: Context, razas: List<Raza>) {
+        if( quoteDatabase == null) quoteDatabase = initDB(context)
+        CoroutineScope(IO).launch {
+            razas.forEach { raza ->
+                razasDao.insertRaza(raza.toDataBase())
+            }
+        }
+    }
+    suspend fun getAllRazas(): List<Raza> {
+        val response: List<RazasEntity> = razasDao.getAllRazas()
+        return response.map { it.toDomain() }
+    }
+
+    suspend fun clearRazas() {
+        CoroutineScope(IO).launch {
+            razasDao.deleteAllRazas()
+        }
+    }
 
     /// IMGANES********************************************************
     //la primera vez que entro a la app, obtenemos las
@@ -70,34 +94,6 @@ class Repository(private val service: Service) {
     suspend fun getAllQuotesFromDatabase(raza: String): List<Quote> {
        val response: List<QuoteEntity> = quoteDao.getAllQuotes(raza)
        return response.map { it.toDomain() }
-    }
-
-
-
-    /// RAZAS***********************************************************
-    suspend fun getAllListaRazasApi(): List<Raza> {
-        val response: ListaRazasModel? = service.getRazas()
-        return response?.toDomain2().orEmpty()
-    }
-
-    suspend fun insertRazas(context: Context, razas: List<Raza>) {
-        if( quoteDatabase == null) quoteDatabase = initDB(context)
-        CoroutineScope(IO).launch {
-            razas.forEach { raza ->
-                razasDao.insertRaza(raza.toDataBase())
-            }
-        }
-    }
-    suspend fun getAllRazas(): List<Raza> {
-        val response: List<RazasEntity> = razasDao.getAllRazas()
-        return response.map { it.toDomain() }
-    }
-
-    suspend fun clearRazas() {
-
-        CoroutineScope(IO).launch {
-            razasDao.deleteAllRazas()
-        }
     }
 
 }

@@ -20,7 +20,7 @@ class Service (private val retrofit : Retrofit) {
     suspend fun getRazas(): ListaRazasModel? {
         return withContext(Dispatchers.IO) {
             val response2 = retrofit.create(ApiClient::class.java).getAllRazas("breeds/list/all")
-            Log.d("estado ", "respuesta de service : ${response2.body()}")
+            Log.d("estado5 ", "respuesta de service : ${response2.body()}")
             response2.body()
 
         }
