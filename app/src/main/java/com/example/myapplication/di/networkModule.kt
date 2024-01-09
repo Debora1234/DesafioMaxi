@@ -1,14 +1,16 @@
 package com.example.myapplication.di
 
+
 import com.example.myapplication.data.network.Service
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 val networkModule = module {
-    single { provideGetRetrofit() }
+    factory {provideGetRetrofit() }
     single { Service(get()) }
 }
+
 
 
 fun provideGetRetrofit(): Retrofit {
