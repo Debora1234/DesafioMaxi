@@ -20,7 +20,9 @@ class MvvmAplication : Application() {
                 casosDeUsosModule,
                 viewModelModule,
                 repositoryModule,
-                interceptorNetworkModule)
+                simuladorInterceptorModule
+
+            )
         }
     }
 }

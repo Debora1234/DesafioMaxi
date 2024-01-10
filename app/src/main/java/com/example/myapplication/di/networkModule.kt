@@ -11,8 +11,6 @@ val networkModule = module {
     single { Service(get()) }
 }
 
-
-
 fun provideGetRetrofit(): Retrofit {
    return Retrofit.Builder()
         .baseUrl("https://dog.ceo/api/")

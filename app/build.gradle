@@ -93,14 +93,15 @@ dependencies {
     implementation 'io.insert-koin:koin-android:3.3.3'
     implementation('io.insert-koin:koin-core:3.3.3')
 
-    
+    //conversor a Gson
+  //  implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
     //interceptor
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.9.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
 
-    
+
     testImplementation 'junit:junit:4.+'
     testImplementation "io.mockk:mockk:1.12.2"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0"
