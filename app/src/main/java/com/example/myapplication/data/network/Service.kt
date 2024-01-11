@@ -8,7 +8,6 @@ import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 
 class Service (private val retrofit : Retrofit) {
-
      suspend fun getQuotes(query: String): QuoteModel? {
         return withContext(Dispatchers.IO) {
             val query2 =query.trim()
@@ -22,7 +21,6 @@ class Service (private val retrofit : Retrofit) {
             val response2 = retrofit.create(ApiClient::class.java).getAllRazas("breeds/list/all")
             Log.d("estado5 ", "respuesta de service : ${response2.body()}")
             response2.body()
-
         }
     }
 }
