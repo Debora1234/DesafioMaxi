@@ -1,5 +1,5 @@
 
-
+/*
 package com.example.myapplication.di
 
 
@@ -13,9 +13,13 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 val simuladorInterceptorModule = module {
-    single(named("retrofitSimulador")) { provideSimuladorInterceptor(androidContext()) }
+   // single { provideSimuladorInterceptor(androidContext()) }
+   // single { provideOkHttpClient(get()) }
+    // single { provideSimuladorRetrofit(get()) }
+
+    single { provideSimuladorInterceptor(androidContext()) }
     single { provideOkHttpClient(get(named("retrofitSimulador"))) }
-    single(named("retrofitSimulador")) { provideSimuladorRetrofit(get(named("retrofitSimulador"))) }
+    single (named("retrofitSimulador")) { provideSimuladorRetrofit(get(named("retrofitSimulador"))) }
 }
 
 fun provideSimuladorInterceptor(context: Context): SimuladorInterceptorUtils {
@@ -33,3 +37,5 @@ fun provideSimuladorRetrofit(okHttpClient: OkHttpClient): Retrofit {
         .client(okHttpClient)
         .build()
 }
+
+*/

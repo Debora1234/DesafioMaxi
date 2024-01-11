@@ -8,6 +8,7 @@ import org.koin.core.context.startKoin
 import org.koin.core.qualifier.named
 import retrofit2.Retrofit
 import org.koin.android.ext.android.get
+import org.koin.android.ext.android.inject
 
 
 class MvvmAplication : Application() {
@@ -21,8 +22,8 @@ class MvvmAplication : Application() {
                 networkModule,
                 casosDeUsosModule,
                 viewModelModule,
-                repositoryModule,
-                simuladorInterceptorModule
+                repositoryModule
+          //      simuladorInterceptorModule
             )
         }
 

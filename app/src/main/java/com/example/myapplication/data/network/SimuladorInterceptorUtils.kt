@@ -6,7 +6,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody.Companion.toResponseBody
 
 
-class SimuladorInterceptorUtils(private val context: Context) : Interceptor {
+class SimuladorInterceptorUtils() : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         // Simular una respuesta de éxito desde la API
         val simulatedResponseJsonString = """
