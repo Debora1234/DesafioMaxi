@@ -33,7 +33,6 @@ class GetQuotesUseCase( private val repository: Repository) {
                 }
                 return quotes
             }
-
         } else {
             Log.d("Network", "No hay conexión a Internet.")
              val quotes = repository.getAllQuotesFromDatabase(query)

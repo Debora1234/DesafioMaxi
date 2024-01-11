@@ -1,23 +1,20 @@
 package com.example.myapplication.data.network
-import okhttp3.*
-import android.content.Context
+
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.Protocol
+import okhttp3.Response
 import okhttp3.ResponseBody.Companion.toResponseBody
 
+class SimuladorInterceptorQuotes() : Interceptor{
 
-class SimuladorInterceptorUtils() : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         // Simular una respuesta de éxito desde la API
         val simulatedResponseJsonString = """
-                {
-                    "message": {
-                        "wolfhound": [
-                            "irish"
-                        ]
-                    },
-                    "status": "success"
-                }
+             {
+                "message": "https://images.dog.ceo/breeds/whippet/n02091134_15876.jpg",
+                "status": "success"
+             }
             """.trimIndent()
 
         // Construir una respuesta con código 200 (OK)
@@ -32,11 +29,3 @@ class SimuladorInterceptorUtils() : Interceptor {
     }
 }
 
-
-/*
-Esta clase Interceptor, es una clase que implementa la interfaz Interceptor.
-Esta se ejectuta cada vez que se realiza una petición HTTP.
-Dentro de este método podria hacer acciones como:
-    -agregar encabezados
-    -modificar el cuerpo de la respuesta
- */

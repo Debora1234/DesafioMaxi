@@ -18,27 +18,17 @@ import org.koin.core.component.KoinComponent
 class QuoteViewModel(private var getRazasUseCase: GetRazasUseCase, private var getQuotesUseCase: GetQuotesUseCase): ViewModel(),
     KoinComponent {
 
-
     private val _dogImagesLiveData = MutableLiveData<List<Quote>?>()
     val dogImagesLiveData: MutableLiveData<List<Quote>?> get() = _dogImagesLiveData
 
     private val _errorLiveData = MutableLiveData<String>() /*para mostrar un error si introduce un nombre de raza que no existe*/
     val errorLiveData: LiveData<String> get() = _errorLiveData
 
-
     // LiveData para observar los cambios en la lista de citas
     private val _lidstadoDeRazasLiveData= MutableLiveData<List<Raza>?>()
     val lidstadoDeRazasLiveData: MutableLiveData<List<Raza>?> get() =  _lidstadoDeRazasLiveData
 
-
     val isLoading = MutableLiveData<Boolean>() //lo usamos para mostrar/ocultar el progress
-
-
-/*
-    //para ir actualizando nuestra lista de citas
-    private val _suggestions = MutableLiveData<List<String>>()
-    val suggestions: LiveData<List<String>> get() = _suggestions
-*/
 
     fun listadoRazasOnCreate (context: Context) {
   //         var getRazasUseCase = GetRazasUseCase()  // Instancia del caso de uso
@@ -64,15 +54,6 @@ class QuoteViewModel(private var getRazasUseCase: GetRazasUseCase, private var g
             isLoading.postValue(false)
         }
     }
-
-
-/*
-    fun updateSuggestions(query: String) {
-        val newSuggestions = query.split(" ")
-        _suggestions.value = newSuggestions
-    }
-*/
-
 }
 
 

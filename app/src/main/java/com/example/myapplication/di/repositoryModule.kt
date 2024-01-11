@@ -8,5 +8,8 @@ import retrofit2.Retrofit
 
 val repositoryModule = module {
     single { Repository(get()) }
-    single (named("repositorySimulador")){ Repository(get<Service>(named("serviceSimulador"))) }
+
+    single (named("repositorySimuladorRazas")){ Repository(get<Service>(named("serviceSimuladorRazas"))) }
+
+    single (named("repositorySimuladorQuotes")){ Repository(get<Service>(named("serviceSimuladorQuotes"))) }
 }
